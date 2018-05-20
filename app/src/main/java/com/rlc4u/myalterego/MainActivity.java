@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         DBHandler db = new DBHandler(this);
 
         if (!minionInit) {
-            Minion newMinion = new Minion("1", aName, 1, 0, 100, 100, 100, 0, 1, 0);
+            Minion newMinion = new Minion("1", aName, 1, 100, 50, 88, 33, 0, 1, 0);
             db.initMinion(newMinion);
             Log.d("Success", "Minion Name : " + newMinion.getName());
         } else {
@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startActivity(new Intent(MainActivity.this, GameScene.class));
-
     }
 }
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyAlterEgo</string>
+    <string name="healthText">health:</string>
+    <string name="hungerText">hunger:</string>
 </resources>
