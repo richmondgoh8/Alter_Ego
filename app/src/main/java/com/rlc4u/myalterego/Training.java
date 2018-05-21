@@ -117,10 +117,11 @@ public class Training extends AppCompatActivity {
             pushCount -= deductableCount;
         }
         if (pushCount == 5) {
-            Minion myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0);
+            Minion myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
             DBHandler db = new DBHandler(this);
             db.retrieveMinion(myMinion);
             db.updateMinion("minionStrength", myMinion.getStrengthMeter() + 1);
+            db.updateMinion("minionCurrency", myMinion.getCurrency() + 1);
             deductableCount += 5;
         }
 

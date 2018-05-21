@@ -17,7 +17,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE minionTable (colID, minionName, minionLevel, minionType, minionCurrency, minionHealth, minionHunger, minionHappiness, minionStrength, minionLifeSpan)");
+        db.execSQL("CREATE TABLE minionTable (colID, minionName, minionLevel, minionType, minionCurrency, minionHealth, minionHunger, minionHappiness, minionStrength, minionLifeSpan, lastOnline, lastFed)");
     }
 
     @Override
@@ -38,6 +38,8 @@ public class DBHandler extends SQLiteOpenHelper {
         contentValues.put("minionHappiness", minion.getHappinessLevel());
         contentValues.put("minionStrength", minion.getStrengthMeter());
         contentValues.put("minionLifeSpan", minion.getDaysPassed());
+        contentValues.put("lastOnline", minion.getLastOnline());
+        contentValues.put("lastFed", minion.getLastFed());
 
         long result = sqLiteDatabase.insert("minionTable", null, contentValues);
         if (result > 0) {
@@ -69,6 +71,8 @@ public class DBHandler extends SQLiteOpenHelper {
             minion.setHappinessLevel((int)cursor.getLong(cursor.getColumnIndexOrThrow("minionHappiness")));
             minion.setStrengthMeter((int)cursor.getLong(cursor.getColumnIndexOrThrow("minionStrength")));
             minion.setDaysPassed((int)cursor.getLong(cursor.getColumnIndexOrThrow("minionLifeSpan")));
+            minion.setLastOnline(cursor.getLong(cursor.getColumnIndexOrThrow("lastOnline")));
+            minion.setLastFed(cursor.getLong(cursor.getColumnIndexOrThrow("lastFed")));
             existingResult = true;
             Log.d("Success", "data retrieved");
         }
@@ -86,6 +90,17 @@ public class DBHandler extends SQLiteOpenHelper {
         int count = sqLiteDatabase.update("minionTable", values, "colID LIKE ?", args);
         Log.d("Success", "Updated Sucessfully, rows affected = " + Integer.toString(count));
 
+    }
+
+    public void updateTime(String colName, long newValue) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(colName, newValue);
+
+        String[] args = {Integer.toString(1)};
+        int count = sqLiteDatabase.update("minionTable", values, "colID LIKE ?", args);
+        Log.d("Success", "Updated Sucessfully, rows affected = " + Integer.toString(count));
 
     }
 

@@ -19,10 +19,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         nameText = findViewById(R.id.nameText);
 
         DBHandler db = new DBHandler(this);
-        myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0);
+        myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 0, 0);
         minionInit = db.retrieveMinion(myMinion);
         if (minionInit) {
             nameText.setTextIsSelectable(false);
@@ -37,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         DBHandler db = new DBHandler(this);
 
         if (!minionInit) {
-            Minion newMinion = new Minion("1", aName, 1, 100, 50, 88, 33, 0, 1, 0);
+            Minion newMinion = new Minion("1", aName, 1, 100, 50, 88, 33, 0, 1, 0, System.currentTimeMillis(), System.currentTimeMillis());
             db.initMinion(newMinion);
             Log.d("Success", "Minion Name : " + newMinion.getName());
         } else {

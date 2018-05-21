@@ -1,5 +1,7 @@
 package com.rlc4u.myalterego;
 
+import java.util.Date;
+
 public class Minion {
     private String id;
     private String name;
@@ -11,8 +13,10 @@ public class Minion {
     private int daysPassed;
     private int level;
     private int strengthMeter;
+    private long lastOnline;
+    private long lastFed;
 
-    public Minion(String id, String name, int type, int currency, int health, int hungerLevel, int happinessLevel, int daysPassed, int level, int strengthMeter) {
+    public Minion(String id, String name, int type, int currency, int health, int hungerLevel, int happinessLevel, int daysPassed, int level, int strengthMeter, long lastOnline, long lastFed) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -23,6 +27,24 @@ public class Minion {
         this.daysPassed = daysPassed;
         this.level = level;
         this.strengthMeter = strengthMeter;
+        this.lastOnline = lastOnline;
+        this.lastFed = lastFed;
+    }
+
+    public long getLastOnline() {
+        return lastOnline;
+    }
+
+    public void setLastOnline(long lastOnline) {
+        this.lastOnline = lastOnline;
+    }
+
+    public long getLastFed() {
+        return lastFed;
+    }
+
+    public void setLastFed(long lastFed) {
+        this.lastFed = lastFed;
     }
 
     public String getId() {
