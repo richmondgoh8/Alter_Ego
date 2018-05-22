@@ -81,27 +81,29 @@ public class GameScene extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         db.updateTime("lastOnline", System.currentTimeMillis());
+        Log.d("OnPause", String.valueOf(System.currentTimeMillis()));
         //String.valueOf(System.currentTimeMillis()
     }
 
     public void manageEvents() {
         db.retrieveMinion(myMinion);
-        long timeLastFed = myMinion.getLastFed()/1000; //in seconds
-        long timeNow = System.currentTimeMillis()/1000;
+        long timeLastFed = myMinion.getLastFed() / 1000; //in seconds
+        long timeNow = System.currentTimeMillis() / 1000;
+        long lastOnline = myMinion.getLastOnline() / 1000;
+
         long multiplier1 = 0;
         long multiplier2 = 0;
 
 
         if (timeNow - timeLastFed > 7200) {
-            multiplier1 = (timeNow - timeLastFed) % 7200;
+            multiplier1 = (timeNow - timeLastFed) / 7200;
             Toast.makeText(getApplicationContext(), String.valueOf(timeLastFed) + "Seperator" +String.valueOf(timeNow), Toast.LENGTH_LONG).show();
             db.updateMinion("minionHunger", myMinion.getHungerLevel() - (int)multiplier1);
             db.updateTime("lastFed", System.currentTimeMillis());
         }
 
-        long timeOnline = myMinion.getLastOnline() / 1000;
-        if (timeNow - timeOnline > 10800) {
-            multiplier2 = (timeNow - timeLastFed) % 10800;
+        if (timeNow - lastOnline > 10800) {
+            multiplier2 = (timeNow - timeLastFed) / 10800;
             db.updateMinion("minionHappiness", myMinion.getHappinessLevel() - (int)multiplier2);
         }
 
