@@ -2,6 +2,7 @@ package com.rlc4u.myalterego;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +10,7 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Training extends AppCompatActivity {
@@ -16,6 +18,9 @@ public class Training extends AppCompatActivity {
     private SensorManager sensorManager;
     private Sensor proximitySensor;
     private Sensor accelerometerSensor;
+
+    private ImageView imageView;
+    AnimationDrawable anim;
 
     private boolean deviceIsFlat;
     private int pushCounter = 0;
@@ -47,6 +52,15 @@ public class Training extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         // put your code here...
+        imageView = findViewById(R.id.charImg);
+        if (imageView == null) {
+            throw new AssertionError();
+        }
+        imageView.setBackgroundResource(R.drawable.avatar_animation);
+        //imageView.setVisibility(View.INVISIBLE);
+        anim = (AnimationDrawable) imageView.getBackground();
+        anim.start();
+
         sensorManager.registerListener(proximitySensorListener, proximitySensor, 2 * 1000 * 1000);
         sensorManager.registerListener(accelerometerSensorListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
