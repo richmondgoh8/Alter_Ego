@@ -3,4 +3,11 @@
     <string name="healthText">health:</string>
     <string name="hungerText">hunger:</string>
     <string name="PushHint">PUSH UP TIME !!</string>
+    <string name="title">My Alter Ego</string>
+    <string name="hintText">Insert Name...</string>
+    <string name="StartText">Let\'s Play !</string>
+    <string name="feedStr">Feed</string>
+    <string name="trainStr">Train</string>
+    <string name="careStr">Care</string>
+    <string name="trainingText">%d Push Ups Completed !</string>
 </resources>

@@ -39,6 +39,7 @@ public class Training extends AppCompatActivity {
         pushCounter = 0;
         deductableCount = 0;
         trainingText = findViewById(R.id.trainingText);
+        trainingText.setText(getString(R.string.trainingText,0));
 
         if (proximitySensor == null) {
             Log.e("Warning", "Proximity sensor not available.");
@@ -56,7 +57,7 @@ public class Training extends AppCompatActivity {
         if (imageView == null) {
             throw new AssertionError();
         }
-        imageView.setBackgroundResource(R.drawable.avatar_animation);
+        imageView.setBackgroundResource(R.drawable.avatar_running);
         //imageView.setVisibility(View.INVISIBLE);
         anim = (AnimationDrawable) imageView.getBackground();
         anim.start();
@@ -79,7 +80,8 @@ public class Training extends AppCompatActivity {
             // More code goes here
             if (sensorEvent.values[0] < proximitySensor.getMaximumRange() && deviceIsFlat) {
                 pushCounter += 1;
-                trainingText.setText("Push Ups: " + String.valueOf(pushCounter));
+
+                trainingText.setText(getString(R.string.trainingText,pushCounter));
                 updateStrength(pushCounter);
                 // Detected something nearby
                 //getWindow().getDecorView().setBackgroundColor(Color.RED);

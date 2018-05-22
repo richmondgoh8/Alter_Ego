@@ -15,11 +15,11 @@
 
     <ImageView
         android:id="@+id/charImg"
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="250dp"
         android:layout_gravity="center"
-        android:layout_marginBottom="50dp"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -29,26 +29,41 @@
 
         <Button
             android:id="@+id/feedBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Feed"
-            android:onClick="feed"/>
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="75dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_button"
+            android:onClick="feed"
+            android:text="@string/feedStr"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/trainBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Train"
-            android:onClick="train"/>
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="75dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_button"
+            android:onClick="train"
+            android:text="@string/trainStr"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/careBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Care"
-            android:onClick="care"/>
+            style="?android:attr/buttonBarStyle"
+            android:layout_width="75dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_button"
+            android:onClick="care"
+            android:text="@string/careStr"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
     </LinearLayout>
 </LinearLayout>

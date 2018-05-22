@@ -66,7 +66,7 @@ public class NotificationService extends Service{
         initializeTimerTask();
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
-        timer.schedule(timerTask, 5000, Your_X_SECS*1000); //
+        timer.schedule(timerTask, Your_X_SECS*1000, Your_X_SECS*1000); //
         //timer.schedule(timerTask, 5000,1000); //
     }
 
@@ -122,8 +122,8 @@ public class NotificationService extends Service{
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
+                .setContentTitle("Aww")
+                .setContentText("Your minion is missing you already, are you coming back?")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
