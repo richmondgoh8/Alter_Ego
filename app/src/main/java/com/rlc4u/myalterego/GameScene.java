@@ -1,8 +1,16 @@
 package com.rlc4u.myalterego;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,7 +74,7 @@ public class GameScene extends AppCompatActivity {
             throw new AssertionError();
         }
         imageView.setBackgroundResource(R.drawable.avatar_animation);
-        myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131,2131);
+        myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
         updateText();
         manageEvents();
         updateText();
@@ -81,8 +89,20 @@ public class GameScene extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         db.updateTime("lastOnline", System.currentTimeMillis());
+
         Log.d("OnPause", String.valueOf(System.currentTimeMillis()));
         //String.valueOf(System.currentTimeMillis()
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        startService(new Intent(this, NotificationService.class));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     public void manageEvents() {
@@ -97,19 +117,19 @@ public class GameScene extends AppCompatActivity {
 
         if (timeNow - timeLastFed > 7200) {
             multiplier1 = (timeNow - timeLastFed) / 7200;
-            Toast.makeText(getApplicationContext(), String.valueOf(timeLastFed) + "Seperator" +String.valueOf(timeNow), Toast.LENGTH_LONG).show();
-            db.updateMinion("minionHunger", myMinion.getHungerLevel() - (int)multiplier1);
+            Toast.makeText(getApplicationContext(), String.valueOf(timeLastFed) + "Seperator" + String.valueOf(timeNow), Toast.LENGTH_LONG).show();
+            db.updateMinion("minionHunger", myMinion.getHungerLevel() - (int) multiplier1);
             db.updateTime("lastFed", System.currentTimeMillis());
         }
 
         if (timeNow - lastOnline > 10800) {
             multiplier2 = (timeNow - timeLastFed) / 10800;
-            db.updateMinion("minionHappiness", myMinion.getHappinessLevel() - (int)multiplier2);
+            db.updateMinion("minionHappiness", myMinion.getHappinessLevel() - (int) multiplier2);
         }
 
         if (multiplier1 + multiplier2 >= 3) {
-            long healthReduction = (multiplier1+multiplier2)/3;
-            db.updateMinion("minionHealth", myMinion.getHealth() - (int)healthReduction);
+            long healthReduction = (multiplier1 + multiplier2) / 3;
+            db.updateMinion("minionHealth", myMinion.getHealth() - (int) healthReduction);
         }
 
         db.updateTime("lastOnline", System.currentTimeMillis());
@@ -210,4 +230,6 @@ public class GameScene extends AppCompatActivity {
             }
         }, timeBetweenChecks);
     }
+
+
 }
