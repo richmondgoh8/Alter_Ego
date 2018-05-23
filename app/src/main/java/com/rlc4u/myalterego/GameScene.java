@@ -1,5 +1,7 @@
 package com.rlc4u.myalterego;
-
+/*
+Reference Code - https://www.viralandroid.com/2016/04/android-gridview-with-image-and-text.html
+ */
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -149,12 +151,6 @@ public class GameScene extends AppCompatActivity {
 
     }
 
-    public void idle() {
-        imageView.setBackgroundResource(R.drawable.avatar_animation);
-        anim = (AnimationDrawable) imageView.getBackground();
-        anim.start();
-    }
-
     public void care(View v) {
         if (myMinion.getHappinessLevel() >= 100) {
             Toast.makeText(getApplicationContext(), "Minion is happy!", Toast.LENGTH_SHORT).show();
@@ -204,7 +200,7 @@ public class GameScene extends AppCompatActivity {
 
     public void updateText() {
         db.retrieveMinion(myMinion);
-        minionName.setText(getString(R.string.Name,myMinion.getName()));
+        minionName.setText(getString(R.string.Name, myMinion.getName()));
         gridViewString[0] = String.valueOf(myMinion.getCurrency());
         gridViewString[1] = String.valueOf(myMinion.getHealth());
         gridViewString[2] = String.valueOf(myMinion.getHungerLevel());
@@ -224,6 +220,10 @@ public class GameScene extends AppCompatActivity {
         db.updateTime("lastFed", System.currentTimeMillis());
     }
 
+    public void increaseHappiness() {
+        db.updateMinion("minionHappiness", myMinion.getHappinessLevel() + 1);
+    }
+
     public void checkDeathCondition() {
         if (myMinion.getHungerLevel() <= 0) {
             anim.stop();
@@ -238,10 +238,10 @@ public class GameScene extends AppCompatActivity {
         }
     }
 
-    public void increaseHappiness() {
-        db.updateMinion("minionHappiness", myMinion.getHappinessLevel() + 1);
-
-        //happinessText.setText("Happiness: " + String.valueOf(myMinion.getHappinessLevel()));
+    public void idle() {
+        imageView.setBackgroundResource(R.drawable.avatar_animation);
+        anim = (AnimationDrawable) imageView.getBackground();
+        anim.start();
     }
 
     private void checkIfAnimationDone(AnimationDrawable anim) {
