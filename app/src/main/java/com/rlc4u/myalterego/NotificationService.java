@@ -1,5 +1,5 @@
 package com.rlc4u.myalterego;
-
+//https://stackoverflow.com/questions/39674850/send-a-notification-when-the-app-is-closed
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
