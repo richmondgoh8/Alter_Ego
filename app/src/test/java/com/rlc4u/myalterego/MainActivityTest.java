@@ -23,8 +23,5 @@ public class MainActivityTest {
     public void save() {
         Minion myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 0, 0);
         assertEquals(myMinion.getCurrency(), 0);
-        //db = new DBHandler(fakeContext);
-        //db.initMinion(myMinion);
-
     }
 }

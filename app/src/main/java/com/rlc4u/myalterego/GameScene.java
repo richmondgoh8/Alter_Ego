@@ -85,9 +85,7 @@ public class GameScene extends AppCompatActivity {
         manageEvents();
         updateText();
         checkDeathCondition();
-
         //imageView.setVisibility(View.INVISIBLE);
-
 
     }
 
@@ -252,6 +250,4 @@ public class GameScene extends AppCompatActivity {
             }
         }, timeBetweenChecks);
     }
-
-
 }
