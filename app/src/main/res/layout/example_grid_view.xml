@@ -11,7 +11,17 @@
         android:layout_height="203dp"
         android:columnWidth="110dp"
         android:gravity="center"
-        android:numColumns="auto_fit"></GridView>
+        android:numColumns="auto_fit">
+    </GridView>
+
+    <TextView
+        android:id="@+id/minionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/Name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/charImg"

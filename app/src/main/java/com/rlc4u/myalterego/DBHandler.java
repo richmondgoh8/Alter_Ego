@@ -74,6 +74,7 @@ public class DBHandler extends SQLiteOpenHelper {
             minion.setLastOnline(cursor.getLong(cursor.getColumnIndexOrThrow("lastOnline")));
             minion.setLastFed(cursor.getLong(cursor.getColumnIndexOrThrow("lastFed")));
             existingResult = true;
+
             Log.d("Success", "data retrieved");
         }
         cursor.close();
@@ -92,6 +93,24 @@ public class DBHandler extends SQLiteOpenHelper {
 
     }
 
+    public void resetMinion() {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("minionHealth", 100);
+        values.put("minionHunger", 100);
+        values.put("minionHappiness", 100);
+        values.put("minionStrength", 10);
+        values.put("minionLevel", 1);
+        values.put("minionCurrency", 100);
+        values.put("minionHunger", 100);
+        values.put("lastOnline", System.currentTimeMillis());
+        values.put("lastFed", System.currentTimeMillis());
+        String[] args = {Integer.toString(1)};
+        int count = sqLiteDatabase.update("minionTable", values, "colID LIKE ?", args);
+        Log.d("Success", "Updated Sucessfully, rows affected = " + Integer.toString(count));
+    }
+
     public void updateTime(String colName, long newValue) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
 
@@ -103,7 +122,6 @@ public class DBHandler extends SQLiteOpenHelper {
         Log.d("Success", "Updated Sucessfully, rows affected = " + Integer.toString(count));
 
     }
-
 
 }
 

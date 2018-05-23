@@ -23,6 +23,7 @@ public class Training extends AppCompatActivity {
     AnimationDrawable anim;
 
     private boolean deviceIsFlat;
+    private int levelBuilder;
     private int pushCounter = 0;
     private int deductableCount;
     private TextView trainingText;
@@ -38,6 +39,7 @@ public class Training extends AppCompatActivity {
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         pushCounter = 0;
         deductableCount = 0;
+        levelBuilder = 0;
         trainingText = findViewById(R.id.trainingText);
         trainingText.setText(getString(R.string.trainingText,0));
 
@@ -129,16 +131,23 @@ public class Training extends AppCompatActivity {
     };
 
     public void updateStrength(int pushCount) {
+        DBHandler db = new DBHandler(this);
+        Minion myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
+        db.retrieveMinion(myMinion);
         if (deductableCount > 0) {
             pushCount -= deductableCount;
         }
         if (pushCount == 5) {
-            Minion myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
-            DBHandler db = new DBHandler(this);
-            db.retrieveMinion(myMinion);
+            levelBuilder += 1;
+
+
             db.updateMinion("minionStrength", myMinion.getStrengthMeter() + 1);
             db.updateMinion("minionCurrency", myMinion.getCurrency() + 1);
             deductableCount += 5;
+        }
+
+        if (levelBuilder == 2) {
+            db.updateMinion("minionLevel", myMinion.getLevel() + 1);
         }
 
     }

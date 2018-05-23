@@ -10,4 +10,5 @@
     <string name="trainStr">Train</string>
     <string name="careStr">Care</string>
     <string name="trainingText">%d Push Ups Completed !</string>
+    <string name="Name">(%s)</string>
 </resources>

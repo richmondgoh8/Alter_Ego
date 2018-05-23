@@ -27,6 +27,7 @@ import android.widget.Toast;
 public class GameScene extends AppCompatActivity {
 
     ImageView imageView;
+    private TextView minionName;
     AnimationDrawable anim;
     DBHandler db = new DBHandler(this);
     private Minion myMinion;
@@ -35,11 +36,11 @@ public class GameScene extends AppCompatActivity {
     CustomGridViewActivity adapterViewAndroid;
 
     String[] gridViewString = {
-            "Currency", "Health", "Hunger", "Strength", "Days", "Happiness",
+            "Currency", "Health", "Hunger", "Strength", "Level", "Happiness",
     };
 
     String[] helperText = {
-            "Currency", "Health", "Hunger", "Strength", "Days", "Happiness",
+            "Currency", "Health", "Hunger", "Strength", "Level", "Happiness",
     };
 
     int[] gridViewImageId = {
@@ -51,6 +52,8 @@ public class GameScene extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.example_grid_view);
 
+        minionName = findViewById(R.id.minionName);
+
         adapterViewAndroid = new CustomGridViewActivity(GameScene.this, gridViewString, gridViewImageId);
         androidGridView = findViewById(R.id.grid_view_image_text);
         androidGridView.setAdapter(adapterViewAndroid);
@@ -59,7 +62,7 @@ public class GameScene extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int i, long id) {
-                Toast.makeText(GameScene.this, "GridView Item: " + helperText[+i], Toast.LENGTH_LONG).show();
+                Toast.makeText(GameScene.this, helperText[+i], Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -68,20 +71,23 @@ public class GameScene extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        //Log.d("Success", "Currently at game scene : ");
+        Log.d("Success", "Currently at game scene : ");
         imageView = findViewById(R.id.charImg);
         if (imageView == null) {
             throw new AssertionError();
         }
         imageView.setBackgroundResource(R.drawable.avatar_animation);
         myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
-        updateText();
-        manageEvents();
-        updateText();
-
-        //imageView.setVisibility(View.INVISIBLE);
         anim = (AnimationDrawable) imageView.getBackground();
         anim.start();
+        updateText();
+
+        manageEvents();
+        updateText();
+        checkDeathCondition();
+
+        //imageView.setVisibility(View.INVISIBLE);
+
 
     }
 
@@ -89,7 +95,7 @@ public class GameScene extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         db.updateTime("lastOnline", System.currentTimeMillis());
-
+        anim.stop();
         Log.d("OnPause", String.valueOf(System.currentTimeMillis()));
         //String.valueOf(System.currentTimeMillis()
     }
@@ -117,7 +123,7 @@ public class GameScene extends AppCompatActivity {
 
         if (timeNow - timeLastFed > 7200) {
             multiplier1 = (timeNow - timeLastFed) / 7200;
-            Toast.makeText(getApplicationContext(), String.valueOf(timeLastFed) + "Seperator" + String.valueOf(timeNow), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), String.valueOf(timeLastFed) + "Seperator" + String.valueOf(timeNow), Toast.LENGTH_LONG).show();
             db.updateMinion("minionHunger", myMinion.getHungerLevel() - (int) multiplier1);
             db.updateTime("lastFed", System.currentTimeMillis());
         }
@@ -191,11 +197,12 @@ public class GameScene extends AppCompatActivity {
 
     public void updateText() {
         db.retrieveMinion(myMinion);
+        minionName.setText(getString(R.string.Name,myMinion.getName()));
         gridViewString[0] = String.valueOf(myMinion.getCurrency());
         gridViewString[1] = String.valueOf(myMinion.getHealth());
         gridViewString[2] = String.valueOf(myMinion.getHungerLevel());
         gridViewString[3] = String.valueOf(myMinion.getStrengthMeter());
-        gridViewString[4] = String.valueOf(myMinion.getDaysPassed());
+        gridViewString[4] = String.valueOf(myMinion.getLevel());
         gridViewString[5] = String.valueOf(myMinion.getHappinessLevel());
         androidGridView.setAdapter(adapterViewAndroid);
     }
@@ -210,8 +217,23 @@ public class GameScene extends AppCompatActivity {
         db.updateTime("lastFed", System.currentTimeMillis());
     }
 
+    public void checkDeathCondition() {
+        if (myMinion.getHungerLevel() <= 0) {
+            anim.stop();
+            imageView.setBackgroundResource(R.drawable.avatar_death);
+            anim = (AnimationDrawable) imageView.getBackground();
+            anim.start();
+            checkIfAnimationDone(anim);
+            db.resetMinion();
+            db.retrieveMinion(myMinion);
+            updateText();
+            Toast.makeText(getApplicationContext(), "Your Minion has fallen, resetting parameters", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void increaseHappiness() {
         db.updateMinion("minionHappiness", myMinion.getHappinessLevel() + 1);
+
         //happinessText.setText("Happiness: " + String.valueOf(myMinion.getHappinessLevel()));
     }
 
