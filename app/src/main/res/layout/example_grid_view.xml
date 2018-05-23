@@ -7,12 +7,12 @@
 
     <GridView
         android:id="@+id/grid_view_image_text"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="203dp"
         android:columnWidth="110dp"
         android:gravity="center"
-        android:numColumns="auto_fit">
-    </GridView>
+        android:stretchMode="columnWidth"
+        android:numColumns="3"></GridView>
 
     <TextView
         android:id="@+id/minionName"
