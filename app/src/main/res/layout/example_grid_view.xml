@@ -14,14 +14,34 @@
         android:stretchMode="columnWidth"
         android:numColumns="3"></GridView>
 
-    <TextView
-        android:id="@+id/minionName"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/Name"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/cameraBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ui_cam"
+            android:onClick="share"/>
+
+        <TextView
+            android:id="@+id/minionName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:text="@string/Name"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+
 
     <ImageView
         android:id="@+id/charImg"

@@ -1,19 +1,30 @@
 package com.rlc4u.myalterego;
 /*
-Reference Code - https://www.viralandroid.com/2016/04/android-gridview-with-image-and-text.html
+Reference Code
+https://inthecheesefactory.com/blog/how-to-share-access-to-file-with-fileprovider-on-android-nougat/en
+https://www.viralandroid.com/2016/04/android-gridview-with-image-and-text.html
  */
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -24,11 +35,25 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import static com.rlc4u.myalterego.R.id.careBtn;
 
 public class GameScene extends AppCompatActivity {
 
@@ -37,6 +62,12 @@ public class GameScene extends AppCompatActivity {
     AnimationDrawable anim;
     DBHandler db = new DBHandler(this);
     private Minion myMinion;
+    private LinearLayout rootContent;
+
+    private Button cameraIcon;
+    private Button careBtn;
+    private Button feedBtn;
+    private Button trainBtn;
 
     GridView androidGridView;
     CustomGridViewActivity adapterViewAndroid;
@@ -58,12 +89,20 @@ public class GameScene extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.example_grid_view);
 
+        careBtn = findViewById(R.id.careBtn);
+        feedBtn = findViewById(R.id.feedBtn);
+        trainBtn = findViewById(R.id.trainBtn);
+        cameraIcon = findViewById(R.id.cameraBtn);
+
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowmanager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
         int deviceWidth = displayMetrics.widthPixels;
 
         minionName = findViewById(R.id.minionName);
+
+        rootContent = findViewById(R.id.android_gridview_example);
 
         adapterViewAndroid = new CustomGridViewActivity(GameScene.this, gridViewString, gridViewImageId);
         androidGridView = findViewById(R.id.grid_view_image_text);
@@ -258,5 +297,50 @@ public class GameScene extends AppCompatActivity {
                 }
             }
         }, timeBetweenChecks);
+    }
+
+    public void share(View v) {
+        shareScreenshot();
+    }
+
+    /*  Method which will take screenshot on Basis of Screenshot Type ENUM  */
+    private File takeScreenshot(ScreenshotType screenshotType) {
+        Bitmap b = null;
+        //fullPageScreenshot.setVisibility(View.INVISIBLE);//set the visibility to INVISIBLE of first button
+        //hiddenText.setVisibility(View.VISIBLE);//set the visibility to VISIBLE of hidden text
+        careBtn.setVisibility(View.INVISIBLE);
+        feedBtn.setVisibility(View.INVISIBLE);
+        trainBtn.setVisibility(View.INVISIBLE);
+        cameraIcon.setVisibility(View.INVISIBLE);
+
+        b = ScreenshotUtils.getScreenShot(rootContent);
+
+        careBtn.setVisibility(View.VISIBLE);
+        feedBtn.setVisibility(View.VISIBLE);
+        trainBtn.setVisibility(View.VISIBLE);
+        cameraIcon.setVisibility(View.VISIBLE);
+
+        File saveFile = ScreenshotUtils.getMainDirectoryName(this);//get the path to save screenshot
+        File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
+        String timeStamp = new SimpleDateFormat("ddMMyyyy", Locale.US).format(new Date());
+        File file = ScreenshotUtils.store(b, timeStamp + "_My_Minion" + ".jpg", storageDir);//save the screenshot to selected path
+        return file;
+
+
+    }
+
+    /*  Share Screenshot  */
+    private void shareScreenshot() {
+        File photoFile = takeScreenshot(ScreenshotType.FULL);
+
+        Uri photoURI = FileProvider.getUriForFile(GameScene.this, BuildConfig.APPLICATION_ID + ".provider", photoFile);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("image/*");
+        String shareBody = "In Tweecher, My highest score with screen shot";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Tweecher score");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, photoURI);
+
+        startActivity(Intent.createChooser(sharingIntent, "Share via"));
     }
 }
