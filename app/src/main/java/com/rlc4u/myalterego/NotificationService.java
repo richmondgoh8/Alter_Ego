@@ -66,7 +66,7 @@ public class NotificationService extends Service{
         initializeTimerTask();
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
-        timer.schedule(timerTask, Your_X_SECS*1000, Your_X_SECS*1000); //
+        timer.schedule(timerTask, 5*1000, Your_X_SECS*1000); //
         //timer.schedule(timerTask, 5000,1000); //
     }
 

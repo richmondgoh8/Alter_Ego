@@ -151,12 +151,15 @@ public class GameScene extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        startService(new Intent(this, NotificationService.class));
+
     }
 
     @Override
     protected void onDestroy() {
+
         super.onDestroy();
+        Log.d("Destroy", "activity gone");
+        startService(new Intent(this, NotificationService.class));
     }
 
     public void manageEvents() {
@@ -336,8 +339,8 @@ public class GameScene extends AppCompatActivity {
         Uri photoURI = FileProvider.getUriForFile(GameScene.this, BuildConfig.APPLICATION_ID + ".provider", photoFile);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("image/*");
-        String shareBody = "In Tweecher, My highest score with screen shot";
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "My Tweecher score");
+        String shareBody = "MY Favourite Minion, Isnt it cool?";
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Join My Alter Ego!");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         sharingIntent.putExtra(Intent.EXTRA_STREAM, photoURI);
 
