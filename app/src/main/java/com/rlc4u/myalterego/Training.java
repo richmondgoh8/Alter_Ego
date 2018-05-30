@@ -132,7 +132,7 @@ public class Training extends AppCompatActivity {
 
     public void updateStrength(int pushCount) {
         DBHandler db = new DBHandler(this);
-        Minion myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
+        Minion myMinion = new Minion();
         db.retrieveMinion(myMinion);
         if (deductableCount > 0) {
             pushCount -= deductableCount;

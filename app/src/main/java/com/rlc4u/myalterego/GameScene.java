@@ -127,7 +127,7 @@ public class GameScene extends AppCompatActivity {
             throw new AssertionError();
         }
         imageView.setBackgroundResource(R.drawable.avatar_animation);
-        myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 2131, 2131);
+        myMinion = new Minion();
         anim = (AnimationDrawable) imageView.getBackground();
         anim.start();
         updateText();
@@ -307,23 +307,19 @@ public class GameScene extends AppCompatActivity {
     }
 
     /*  Method which will take screenshot on Basis of Screenshot Type ENUM  */
-    private File takeScreenshot(ScreenshotType screenshotType) {
-        Bitmap b = null;
-        //fullPageScreenshot.setVisibility(View.INVISIBLE);//set the visibility to INVISIBLE of first button
-        //hiddenText.setVisibility(View.VISIBLE);//set the visibility to VISIBLE of hidden text
+    private File takeScreenshot() {
         careBtn.setVisibility(View.INVISIBLE);
         feedBtn.setVisibility(View.INVISIBLE);
         trainBtn.setVisibility(View.INVISIBLE);
         cameraIcon.setVisibility(View.INVISIBLE);
 
-        b = ScreenshotUtils.getScreenShot(rootContent);
+        Bitmap b = ScreenshotUtils.getScreenShot(rootContent);
 
         careBtn.setVisibility(View.VISIBLE);
         feedBtn.setVisibility(View.VISIBLE);
         trainBtn.setVisibility(View.VISIBLE);
         cameraIcon.setVisibility(View.VISIBLE);
 
-        File saveFile = ScreenshotUtils.getMainDirectoryName(this);//get the path to save screenshot
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "Camera");
         String timeStamp = new SimpleDateFormat("ddMMyyyy", Locale.US).format(new Date());
         File file = ScreenshotUtils.store(b, timeStamp + "_My_Minion" + ".jpg", storageDir);//save the screenshot to selected path
@@ -334,7 +330,7 @@ public class GameScene extends AppCompatActivity {
 
     /*  Share Screenshot  */
     private void shareScreenshot() {
-        File photoFile = takeScreenshot(ScreenshotType.FULL);
+        File photoFile = takeScreenshot();
 
         Uri photoURI = FileProvider.getUriForFile(GameScene.this, BuildConfig.APPLICATION_ID + ".provider", photoFile);
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);

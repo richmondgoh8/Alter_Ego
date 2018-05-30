@@ -11,8 +11,9 @@
         android:layout_height="203dp"
         android:columnWidth="110dp"
         android:gravity="center"
-        android:stretchMode="columnWidth"
-        android:numColumns="3"></GridView>
+        android:numColumns="3"
+        android:stretchMode="columnWidth">
+    </GridView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,7 +27,7 @@
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:background="@drawable/ui_cam"
-            android:onClick="share"/>
+            android:onClick="share" />
 
         <TextView
             android:id="@+id/minionName"
@@ -39,8 +40,6 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
-
-
 
 
     <ImageView
@@ -81,7 +80,7 @@
             android:onClick="train"
             android:text="@string/trainStr"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/careBtn"
@@ -94,6 +93,6 @@
             android:onClick="care"
             android:text="@string/careStr"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>

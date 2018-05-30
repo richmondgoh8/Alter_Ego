@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         DBHandler db = new DBHandler(this);
-        myMinion = new Minion("1", "NA", 1, 0, 100, 100, 100, 0, 1, 0, 0, 0);
+        myMinion = new Minion();
         minionInit = db.retrieveMinion(myMinion);
         if (minionInit) {
             nameText.setTextIsSelectable(false);
@@ -73,7 +73,11 @@ public class MainActivity extends AppCompatActivity {
         DBHandler db = new DBHandler(this);
 
         if (!minionInit) {
-            Minion newMinion = new Minion("1", aName, 1, 100, 50, 88, 33, 0, 1, 0, System.currentTimeMillis(), System.currentTimeMillis());
+            //Minion newMinion = new Minion("1", aName, 1, 100, 50, 88, 33, 0, 1, 0, System.currentTimeMillis(), System.currentTimeMillis());
+            Minion newMinion = new Minion();
+            newMinion.setName(aName);
+            newMinion.setLastFed(System.currentTimeMillis());
+            newMinion.setLastOnline(System.currentTimeMillis());
             db.initMinion(newMinion);
             Log.d("Success", "Minion Name : " + newMinion.getName());
         } else {

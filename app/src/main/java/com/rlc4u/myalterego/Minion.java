@@ -16,19 +16,19 @@ public class Minion {
     private long lastOnline;
     private long lastFed;
 
-    public Minion(String id, String name, int type, int currency, int health, int hungerLevel, int happinessLevel, int daysPassed, int level, int strengthMeter, long lastOnline, long lastFed) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.currency = currency;
-        this.health = health;
-        this.hungerLevel = hungerLevel;
-        this.happinessLevel = happinessLevel;
-        this.daysPassed = daysPassed;
-        this.level = level;
-        this.strengthMeter = strengthMeter;
-        this.lastOnline = lastOnline;
-        this.lastFed = lastFed;
+    public Minion() {
+        id = "1";
+        name = "N.A";
+        type = 1;
+        currency = 100;
+        health = 50;
+        hungerLevel = 88;
+        happinessLevel = 33;
+        daysPassed = 0;
+        level = 1;
+        strengthMeter = 0;
+        lastOnline = 0L;
+        lastFed = 0L;
     }
 
     public long getLastOnline() {
